@@ -88,19 +88,24 @@ TextCell.prototype.draw = function (width, height) {
 	return result;
 }
 
-var rows = [];
-for (var i = 0; i < 5; i++) {
-	var row = [];
-	for (var j = 0; j < 5; i++) {
-		if ((j+i) % 2 == 0)
-			row.push(new TextCell("##"));
-		else
-			row.push(new TextCell('  '));
-	}	
-	rows.push(row);
+function row_init() {
+	var rows = [];
+	for (var i = 0; i < 5; i++) {
+		var row = [];
+		for (var j = 0; j < 5; j++) {
+			if ((j+i) % 2 == 0)
+				row.push(new TextCell("##"));
+			else
+				row.push(new TextCell('  '));
+		}	
+		rows.push(row);
+	}
+	return rows;
 }
-console.log(rows);
-// console.log(drawTable(rows));
+
+console.log(drawTable(row_init()));
+var mountains = require('./mountain');
+console.log(drawTable(mountains));
 
 
 
