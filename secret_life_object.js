@@ -91,16 +91,100 @@ TextCell.prototype.draw = function (width, height) {
 var rows = [];
 for (var i = 0; i < 5; i++) {
 	var row = [];
-	for (var j = 0; j < 5; i++) {
+	for (var j = 0; j < 5; j++) {
 		if ((j+i) % 2 == 0)
 			row.push(new TextCell("##"));
 		else
-			row.push(new TextCell('  '));
+			row.push(new TextCell("  "));
 	}	
 	rows.push(row);
 }
-console.log(rows);
-// console.log(drawTable(rows));
+var mountains = require('./mountain')
+console.log(mountains);
+// console.log(drawTable(mountains));
+
+function UnderlinedCell(inner) {
+	this.inner = inner;
+};
+
+UnderlinedCell.prototype.minWidth = function() {
+	return this.inner.minWidth;
+}
+
+UnderlinedCell.prototype.minHeight = function() {
+	return this.inner.minHeight + 1;
+}
+
+UnderlinedCell.prototype.draw = function(width, height) {
+	return this.inner.draw(width, height - 1)
+		.concat([repeat("-", width)]);
+}
+
+function dataTable(data) {
+	var keys = Object.keys(data[0]);
+	var headers = keys.map(function(name) {
+		return new UnderlinedCell(new TextCell(name));
+	});
+	var body = data.map(function(row) {
+		return keys.map(function(name) {
+			return new TextCell(String(row[name]));
+		});
+	});
+	return [headers].concat(body);
+}
+
+console.log(drawTable(dataTable(mountains)));
+
+
+var pipe = {
+	elem : ["first", "second", "third"],
+	get height() {
+		return this.elem.length;
+	},
+	set height(val) {
+		console.log('Push val ignore.' + val);
+	}
+}
+
+console.log(pipe.height);
+
+pipe.height = 100;
+
+function RTextCell(text) {
+	TextCell.call(this, text);
+}
+RTextCell.prototype = Object.create(TextCell.prototype);
+RTextCell.prototype.draw = function(width, height) {
+	var result = [];
+	for (var i = 0; i < height; i++) {
+		var line = this.text[i] || "";
+		result.push(repeat(" ", width - line.length) + line);
+	}
+	return result;
+};
+
+function dataTableNew(data) {
+	var keys = Object.keys(data[0]);
+	var headers = keys.map(function(name) {
+		return new UnderlinedCell(new TextCell(name));
+	});
+	var body = data.map(function(row) {
+		return keys.map(function(name) {
+			var value = row[name];
+
+			if (typeof value == "number")
+				return new RTextCell(String(value));
+			else
+				return new TextCell(String(value));
+		});
+	});
+	return [headers].concat(body);
+}
+
+console.log('---------------Table New----------------');
+console.log(drawTable(dataTableNew(mountains)));
+
+
 
 
 
