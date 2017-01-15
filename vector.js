@@ -25,6 +25,10 @@ console.log((new Vector(2,2)).minus(new Vector(3,3)));
 console.log((new Vector(3,4)).length);
 console.log((new Vector(3,4)).x);
 
+// using vector another project
+if (typeof module != "undefined" && module.exports)
+  module.exports = Vector;
+
 console.log('-----------------------Sequence----------------------')
 
 function Seq(N) {
