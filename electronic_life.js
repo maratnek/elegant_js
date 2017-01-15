@@ -89,7 +89,6 @@ function elementFromChar(legend, ch) {
 }
 
 function World(map, legend) {
-	console.log(map[0].length);
 	var grid = new Grid(map[0].length, map.length);
 	this.grid = grid; 
 	this.legend = legend;
@@ -99,7 +98,6 @@ function World(map, legend) {
 			grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
 		}
 	})
-	console.log(grid);
 }
 
 function charFromElement(element) {
@@ -137,9 +135,6 @@ var plan = ["############################",
             "############################"];
 
 var world = new World(plan, {"#": Wall, "o":BouncingCritter});
-// console.log(world);
-console.log(plan.length);
-console.log(plan[0].length);
 console.log(world.toString());
 
 
